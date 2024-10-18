@@ -1,0 +1,29 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+platforms:
+  - name: "molecule-ansible-role-apache"
+    image: "${MOLECULE_IMAGE:-centos:8}"
+    command: ""
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      callback_enabled: timer
+      internal_poll_interval: "0.01"
+      nocows: 1
+      var_compression_level: 9
+    diff:
+      always: true
+  log: true
+
+verifier:
+  name: ansible
